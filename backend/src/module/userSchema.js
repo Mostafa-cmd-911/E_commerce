@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 export const userSchema = new Schema({
-    Name: { type: String },
-    Email: { type: String },
+    name: { type: String },
+    email: { type: String },
     password: { type: String },
     role: { type: String, default: "user" },
 });
