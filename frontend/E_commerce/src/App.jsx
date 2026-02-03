@@ -1,6 +1,6 @@
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import { AuthLayout, MainLayout } from '@layouts'
-import { ProtectedRoute , GuestRoute} from '@routes'
+import { ProtectedRoute, GuestRoute } from '@routes'
 
 const router = createBrowserRouter([
   {
@@ -32,43 +32,31 @@ const router = createBrowserRouter([
     ],
   },
   {
-  path: '/auth',
-  element: <AuthLayout />,
-  children: [
-    {
-      path: 'login',
-      element: (
-        <GuestRoute>
-          {/* <Login /> */}
-        </GuestRoute>
-      ),
-    },
-    {
-      path: 'register',
-      element: (
-        <GuestRoute>
-          {/* <Register /> */}
-        </GuestRoute>
-      ),
-    },
-    {
-      path: 'forgot-password',
-      element: (
-        <GuestRoute>
-          {/* <ForgotPassword /> */}
-        </GuestRoute>
-      ),
-    },
-    {
-      path: 'reset-password',
-      element: (
-        <GuestRoute>
-          {/* <ResetPassword /> */}
-        </GuestRoute>
-      ),
-    },
-  ],
-}
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="login" replace />,
+      },
+      {
+        path: 'login',
+        element: <GuestRoute>{/* <Login /> */}</GuestRoute>,
+      },
+      {
+        path: 'register',
+        element: <GuestRoute>{/* <Register /> */}</GuestRoute>,
+      },
+      {
+        path: 'forgot-password',
+        element: <GuestRoute>{/* <ForgotPassword /> */}</GuestRoute>,
+      },
+      {
+        path: 'reset-password',
+        element: <GuestRoute>{/* <ResetPassword /> */}</GuestRoute>,
+      },
+    ],
+  },
 ])
 
 function App() {
