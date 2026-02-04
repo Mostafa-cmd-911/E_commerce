@@ -14,7 +14,7 @@ export function NavLinks({ links }) {
             fontWeight: 600,
             color: isActive ? '#3625f4' : '#334155',
           })}
-          className="!hover:text-primary transition-colors!"
+          className="!hover:text-primary transition-colors! dark:text-zinc-300! dark:hover:text-primary!"
         >
           {link.label}
         </NavLink>

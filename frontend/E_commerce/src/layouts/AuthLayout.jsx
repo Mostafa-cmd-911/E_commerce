@@ -11,7 +11,7 @@ export function AuthLayout() {
     <>
       <AuthNavbar showLogin={!isLogin} showRegister={!isRegister} />
 
-      <main className="min-h-screen">
+      <main>
         <Outlet />
       </main>
 
