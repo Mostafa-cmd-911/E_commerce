@@ -1,14 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  Button,
-  IconButton,
-  Container,
-  Link,
-} from '@mui/material'
-import { Logo, NavLinks } from '@components'
+import { AppBar, Toolbar, Box, Button, Container } from '@mui/material'
+import { Logo, NavLinks, ThemeToggler } from '@components'
 
 export function AuthNavbar({ showLogin, showRegister }) {
   const navLinks = [
@@ -37,15 +29,7 @@ export function AuthNavbar({ showLogin, showRegister }) {
           {/* Right Side */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 4 }}>
             {/* Theme Toggle */}
-            <IconButton
-              className="rounded border text-sm"
-              sx={{
-                bgcolor: 'background.paper',
-                borderColor: 'divider',
-              }}
-            >
-              btn
-            </IconButton>
+            <ThemeToggler />
 
             {/* Login Btn */}
             {showLogin && (
