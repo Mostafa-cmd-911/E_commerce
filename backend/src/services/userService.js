@@ -4,7 +4,7 @@ const register = async ({ email, password, name }) => {
     const findUser = await userModel.findOne({ email });
 
     if (findUser) {
-        return { message: "user is already exists", status: 409 };
+        return { message: "User is already exist", status: 409 };
     }
 
     const newUser = new userModel({
@@ -14,7 +14,6 @@ const register = async ({ email, password, name }) => {
     });
 
     await newUser.save();
-
     return { message: newUser, status: 201 };
 };
 

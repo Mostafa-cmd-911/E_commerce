@@ -11,6 +11,7 @@
       "@routes/*": ["routes/*"],
       "@context/*": ["context/*"],
       "@hooks/*": ["hooks/*"],
+      "@api/*": ["api/*"],
     }
   }
 }

@@ -25,6 +25,7 @@ export default defineConfig({
             "@context": resolve(__dirname, "src/context"),
             "@hooks": resolve(__dirname, "src/hooks"),
             "@themes": resolve(__dirname, "src/themes"),
+            "@api": resolve(__dirname, "src/api"),
         },
     },
 });

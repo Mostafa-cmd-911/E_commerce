@@ -4,10 +4,12 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
 import { PasswordField } from '@components'
+import { useRegister } from '@hooks'
+import { useNavigate } from 'react-router-dom'
 
 /* Reducer */
-
 const initialState = {
   fullName: '',
   email: '',
@@ -54,11 +56,11 @@ function reducer(state, action) {
 }
 
 /* RegisterForm Component */
-
 export function RegisterForm() {
   const [state, dispatch] = useReducer(reducer, initialState)
-
   const { fullName, email, password, toast } = state
+  const { register, loading, error } = useRegister()
+  const navigate = useNavigate()
 
   /* Password & E-mail validation */
   const isEmailValid = useMemo(() => {
@@ -77,7 +79,7 @@ export function RegisterForm() {
   }, [fullName, isEmailValid, isPasswordValid])
 
   /* on Submit hendler */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!isFormValid) {
@@ -88,17 +90,28 @@ export function RegisterForm() {
       return
     }
 
-    // When the form isValid, you can call the API to register the user
+    try {
+      const res = await register({ fullName, email, password })
 
-    // call API
+      // Displaying message from the server or a default one based on the success of the registration
+      dispatch({
+        type: 'SHOW_TOAST',
+        message: res?.message || 'Something went wrong',
+        severity: res?.success ? 'success' : 'error',
+      })
 
-    dispatch({
-      type: 'SHOW_TOAST',
-      message: 'Account created successfully!',
-      severity: 'success',
-    })
-
-    console.log('Form submitted:', { fullName, email, password })
+      // Navigate to home page on successful registration
+      if (res?.success) {
+        navigate('/')
+      }
+    } catch (err) {
+      // This catch block is a safety net for any unexpected errors that might occur during the registration process
+      dispatch({
+        type: 'SHOW_TOAST',
+        message: err.message || 'Something went wrong',
+        severity: 'error',
+      })
+    }
   }
 
   return (
@@ -166,14 +179,26 @@ export function RegisterForm() {
             type="submit"
             fullWidth
             variant="contained"
-            // disabled={!isFormValid}
+            disabled={!isFormValid || loading}
             sx={{
               height: 56,
               fontWeight: 700,
               fontSize: '16px',
             }}
           >
-            Sign Up
+            {loading ? (
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <CircularProgress size={20} color="inherit" />
+                <span>Registering...</span>
+              </Stack>
+            ) : (
+              'Sign Up'
+            )}
           </Button>
         </Stack>
       </form>
