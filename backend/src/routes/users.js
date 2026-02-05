@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login } from "../services/userService";
+import { register, login } from "../services/userService.js";
 
 const router = express.Router();
 
@@ -9,13 +9,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    const user = await register(req.body);
-    res.status(201).send(user);
+    const { name, email, password } = req.body;
+    const user = await register({ name, email, password });
+    res.status(user.status).send(user);
 });
 
 router.post("/login", async (req, res) => {
-    const user = await login(req.body);
-    res.status(200).send(user);
+    const { email, password } = req.body;
+    const user = await login({ email, password });
+    res.status(user.status).send(user);
 });
 
 export default router;
