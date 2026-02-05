@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import { AuthLayout, MainLayout } from '@layouts'
 import { ProtectedRoute, GuestRoute } from '@routes'
+import { Register } from '@pages'
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'register',
-        element: <GuestRoute>{/* <Register /> */}</GuestRoute>,
+        element: (
+          <GuestRoute>
+            <Register />
+          </GuestRoute>
+        ),
       },
       {
         path: 'forgot-password',

@@ -6,7 +6,6 @@ export function Logo() {
     <Box
       component={RouterLink}
       to="/"
-      className="flex-1"
       sx={{
         display: 'flex',
         alignItems: 'center',
