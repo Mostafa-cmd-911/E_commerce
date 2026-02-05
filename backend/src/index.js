@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/users.js";
 
 const app = express();
+dotenv.config();
 
 const PORT = 3000;
 
@@ -16,7 +18,7 @@ app.use(express.json());
 app.use(
     cors({
         origin: allowedOrigins,
-        credentials: true
+        credentials: true,
     }),
 );
 

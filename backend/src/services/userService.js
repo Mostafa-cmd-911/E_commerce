@@ -18,7 +18,17 @@ const register = async ({ email, password, name }) => {
     });
 
     await newUser.save();
-    return { message: generateJWT({ name, email, password }), status: 201 };
+    return {
+        success: true,
+        message: "User registered successfully",
+        token: generateJWT({
+            email,
+            role: newUser.role,
+            id: newUser._id,
+        }),
+        status: 201,
+        user: { name: newUser.name, email: newUser.email },
+    };
 };
 
 const login = async ({ email, password }) => {
@@ -35,13 +45,20 @@ const login = async ({ email, password }) => {
     }
 
     return {
-        message: generateJWT({ name: findUser.name, email, password }),
-        status: 200,
+        success: true,
+        message: "Logged in successfully",
+        token: generateJWT({
+            email,
+            role: findUser.role,
+            id: findUser._id,
+        }),
+        status: 201,
+        user: { name: findUser.name, email: findUser.email },
     };
 };
 
 const generateJWT = (data) => {
-    return jwt.sign(data, "jYmeO01Fi6XSHvMSya8vuHvbQ502zYlzBO8iLw/6iI8=");
+    return jwt.sign(data, process.env.JWT_SECRET_KEY);
 };
 
 export { register, login };
