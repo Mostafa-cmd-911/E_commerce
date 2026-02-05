@@ -6,7 +6,7 @@ const register = async ({ email, password, name }) => {
     const findUser = await userModel.findOne({ email });
 
     if (findUser) {
-        return { message: "User is already exist", status: 409 };
+        return { message: "User is already exist", status: 400};
     }
 
     const hasedPassword = await bcrypt.hash(password, 10);
