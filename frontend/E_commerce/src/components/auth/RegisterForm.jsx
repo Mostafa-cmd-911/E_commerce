@@ -90,6 +90,15 @@ export function RegisterForm() {
       return
     }
 
+    if (error) {
+      dispatch({
+        type: 'SHOW_TOAST',
+        message: error,
+        severity: 'error',
+      })
+      return
+    }
+
     try {
       const res = await register({ fullName, email, password })
 
