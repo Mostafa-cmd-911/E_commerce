@@ -1,5 +1,5 @@
 import express from "express";
-import { userModel } from "../module/userSchema.js";
+import { register, login } from "../services/userService";
 
 const router = express.Router();
 
@@ -8,17 +8,14 @@ router.get("/", async (req, res) => {
     res.send(users);
 });
 
-router.post("/", async (req, res) => {
-    const body = req.body;
-    const newUser = new userModel(body);
-    await newUser.save();
-    res.status(201).send(newUser);
+router.post("/register", async (req, res) => {
+    const user = await register(req.body);
+    res.status(201).send(user);
 });
 
-router.delete("/:id", async (req, res) => {
-    const id = req.params.id;
-    await userModel.findByIdAndDelete(id);
-    res.status(204).send();
+router.post("/login", async (req, res) => {
+    const user = await login(req.body);
+    res.status(200).send(user);
 });
 
 export default router;
