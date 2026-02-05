@@ -26,6 +26,7 @@ export default defineConfig({
             "@hooks": resolve(__dirname, "src/hooks"),
             "@themes": resolve(__dirname, "src/themes"),
             "@api": resolve(__dirname, "src/api"),
+            "@constants": resolve(__dirname, "src/constants"),
         },
     },
 });

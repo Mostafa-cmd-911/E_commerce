@@ -24,7 +24,7 @@ export function PasswordField({ value, onChange, error }) {
           maxLength: 64,
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setShow(!show)} edge="end">
+              <IconButton onClick={() => setShow(!show)}>
                 {show ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
