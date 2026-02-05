@@ -1,5 +1,6 @@
 import { userModel } from "../module/userSchema.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const register = async ({ email, password, name }) => {
     const findUser = await userModel.findOne({ email });
@@ -17,7 +18,7 @@ const register = async ({ email, password, name }) => {
     });
 
     await newUser.save();
-    return { message: newUser, status: 201 };
+    return { message: generateJWT({ name, email, password }), status: 201 };
 };
 
 const login = async ({ email, password }) => {
@@ -33,7 +34,14 @@ const login = async ({ email, password }) => {
         return { message: "Invalid email or password", status: 400 };
     }
 
-    return { message: findUser, status: 200 };
+    return {
+        message: generateJWT({ name: findUser.name, email, password }),
+        status: 200,
+    };
+};
+
+const generateJWT = (data) => {
+    return jwt.sign(data, "jYmeO01Fi6XSHvMSya8vuHvbQ502zYlzBO8iLw/6iI8=");
 };
 
 export { register, login };
