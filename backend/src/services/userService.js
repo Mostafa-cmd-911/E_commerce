@@ -4,7 +4,7 @@ const register = async ({ email, password, name }) => {
     const findUser = await userModel.findOne({ email });
 
     if (findUser) {
-        throw new Error("User already exists");
+        return { message: "user is already exists", status: 409 };
     }
 
     const newUser = new userModel({
@@ -15,22 +15,22 @@ const register = async ({ email, password, name }) => {
 
     await newUser.save();
 
-    return newUser;
+    return { message: newUser, status: 201 };
 };
 
 const login = async ({ email, password }) => {
     const findUser = await userModel.findOne({ email, password });
 
     if (!findUser) {
-        throw new Error("Invalid email or password");
+        return { message: "Invalid email or password", status: 409 };
     }
 
     const passwordMatch = findUser.password === password;
     if (!passwordMatch) {
-        throw new Error("Invalid email or password");
+        return { message: "Invalid email or password", status: 409 };
     }
 
-    return findUser;
+    return { message: findUser, status: 200 };
 };
 
 export { register, login };
