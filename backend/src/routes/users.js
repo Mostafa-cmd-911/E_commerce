@@ -9,14 +9,12 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    const { name, email, password } = req.body;
-    const user = await register({ name, email, password });
+    const user = await register(req.body);
     res.status(user.status).send(user);
 });
 
 router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    const user = await login({ email, password });
+    const user = await login(req.body);
     res.status(user.status).send(user);
 });
 

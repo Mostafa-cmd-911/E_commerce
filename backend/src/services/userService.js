@@ -5,12 +5,26 @@ import jwt from "jsonwebtoken";
 const register = async ({ email, password, name }) => {
     const findUser = await userModel.findOne({ email });
 
+    // Validate input
+    if (!name || !email || !password) {
+            throw {
+                status: 400,
+                message: "Please add all fields",
+            };
+        }
+
+        // Validate email format
+        // Validate password length
+
+    // Check if user already exist
     if (findUser) {
-        return { message: "User is already exist", status: 400};
+        return { message: "User already exists", status: 400};
     }
 
+    // Hash Password
     const hasedPassword = await bcrypt.hash(password, 10);
 
+    // Create new user
     const newUser = new userModel({
         name,
         email,
@@ -29,6 +43,8 @@ const register = async ({ email, password, name }) => {
         status: 201,
         user: { name: newUser.name, email: newUser.email },
     };
+
+    // TODO: add server error handling using try catch block and return 500 status code with error message
 };
 
 const login = async ({ email, password }) => {
