@@ -41,7 +41,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
   const { email, password, toast } = state
-  const { login, loading, error } = useLogin()
+  const { login, loading } = useLogin()
   const navigate = useNavigate()
 
   // Validation

@@ -59,7 +59,7 @@ function reducer(state, action) {
 export function RegisterForm() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { fullName, email, password, toast } = state
-  const { register, loading, error } = useRegister()
+  const { register, loading } = useRegister()
   const navigate = useNavigate()
 
   /* Password & E-mail validation */
@@ -90,37 +90,32 @@ export function RegisterForm() {
       return
     }
 
-    if (error) {
-      dispatch({
-        type: 'SHOW_TOAST',
-        message: error,
-        severity: 'error',
-      })
-      return
+    // Call register
+    const res = await register({ fullName, email, password })
+    console.log('Register response:', res)
+
+    // Determine toast message & severity
+    let toastMessage = 'Something went wrong'
+    let toastSeverity = 'error'
+
+    if (res.success) {
+      toastMessage = res.message || 'Account created successfully'
+      toastSeverity = 'success'
+
+      // Navigate after successful registration
+      navigate('/')
+    } else {
+      // res.success === false
+      toastMessage = res.message
+      toastSeverity = 'error'
     }
 
-    try {
-      const res = await register({ fullName, email, password })
-
-      // Displaying message from the server or a default one based on the success of the registration
-      dispatch({
-        type: 'SHOW_TOAST',
-        message: res?.message || 'Something went wrong',
-        severity: res?.success ? 'success' : 'error',
-      })
-
-      // Navigate to home page on successful registration
-      if (res?.success) {
-        navigate('/')
-      }
-    } catch (err) {
-      // This catch block is a safety net for any unexpected errors that might occur during the registration process
-      dispatch({
-        type: 'SHOW_TOAST',
-        message: err.message || 'Something went wrong',
-        severity: 'error',
-      })
-    }
+    // Dispatch toast once
+    dispatch({
+      type: 'SHOW_TOAST',
+      message: toastMessage,
+      severity: toastSeverity,
+    })
   }
 
   return (

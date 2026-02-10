@@ -3,11 +3,9 @@ import { registerUser } from '@api/auth'
 
 export function useRegister() {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   const register = async (userData) => {
     setLoading(true)
-    setError(null)
     try {
       const res = await registerUser(userData)
       return {
@@ -16,14 +14,16 @@ export function useRegister() {
         data: res,
       }
     } catch (err) {
-      const msg = err?.message || 'Registration failed'
-      setError(msg)
-
-      return { success: false, message: msg }
+      return {
+        success: false,
+        message:
+          err?.response?.data?.message || err?.message || 'Registration failed - try again',
+        error: err,
+      }
     } finally {
       setLoading(false)
     }
   }
 
-  return { register, loading, error }
+  return { register, loading }
 }
