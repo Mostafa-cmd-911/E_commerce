@@ -3,21 +3,20 @@ import { loginUser } from '@api/auth'
 
 export function useLogin() {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   const login = async ({ email, password }) => {
     setLoading(true)
-    setError(null)
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500)) // Artificial delay for better UX
-      return await loginUser({ email, password })
+      const res = await loginUser({ email, password })
+      return { ...res, error: null }
     } catch (err) {
-      setError(err?.message || 'Login failed')
-      return null
+      console.log('Login error:', err)
+      return { success: false, message: err?.response?.data?.message || err.message || 'Login failed', error: err }
     } finally {
       setLoading(false)
     }
   }
 
-  return { login, loading, error }
+  return { login, loading }
 }

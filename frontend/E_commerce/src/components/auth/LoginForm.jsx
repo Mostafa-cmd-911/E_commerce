@@ -55,27 +55,50 @@ export function LoginForm() {
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Form validation
     if (!isFormValid) {
       dispatch({
         type: 'SHOW_TOAST',
         message: 'Please fill all fields correctly',
+        severity: 'error',
       })
       return
     }
 
+    // 2️Call login
     const res = await login({ email, password })
-    dispatch({
-      type: 'SHOW_TOAST',
-      message: res?.message || error || 'Something went wrong',
-      severity: res?.success ? 'success' : 'error',
-    })
-
     console.log('Login response:', res)
 
-    if (res?.success) {
+    // Determine the toast message & severity
+    let toastMessage = 'Something went wrong - try again'
+    let toastSeverity = 'error'
+
+    if (res.success) {
+      toastMessage = res.message || 'Login successful'
+      toastSeverity = 'success'
+
+      // Save token & navigate
       localStorage.setItem(STORAGE_KEYS.USER_TOKEN, res.token)
       navigate('/')
+    } else {
+      // res.success === false
+      if (res.error?.response?.data?.message) {
+        // Backend validation error
+        toastMessage = res.error.response.data.message
+      } else if (res.message) {
+        // Network or unknown error
+        toastMessage = res.message
+      }
+      toastSeverity = 'error'
     }
+
+    // 4️Dispatch toast **once**
+    dispatch({
+      type: 'SHOW_TOAST',
+      message: toastMessage,
+      severity: toastSeverity,
+    })
   }
 
   return (
@@ -103,7 +126,10 @@ export function LoginForm() {
           />
 
           {/* Forgot Password Link */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} className="-mb-2.5! mt-1!">
+          <Box
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            className="mt-1! -mb-2.5!"
+          >
             <Link
               to="/auth/forgot-password"
               style={{
