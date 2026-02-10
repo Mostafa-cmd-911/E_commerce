@@ -5,11 +5,11 @@ import Button from '@mui/material/Button'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
-import { IconButton, InputAdornment } from '@mui/material'
+import { IconButton, InputAdornment, Box } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useLogin } from '@hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { STORAGE_KEYS } from '@constants/storageKeys'
 
 // Reducer function & initial state
@@ -101,6 +101,25 @@ export function LoginForm() {
               })
             }
           />
+
+          {/* Forgot Password Link */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} className="-mb-2.5! mt-1!">
+            <Link
+              to="/auth/forgot-password"
+              style={{
+                textDecoration: 'none',
+                color: '#3625f4',
+                fontSize: '14px',
+                fontWeight: 500,
+                transition: 'color 0.2s',
+                margin: '0 0',
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#2919c9')}
+              onMouseLeave={(e) => (e.target.style.color = '#3625f4')}
+            >
+              Forgot Password?
+            </Link>
+          </Box>
 
           {/* Password */}
           <TextField

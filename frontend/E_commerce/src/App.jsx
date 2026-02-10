@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import { AuthLayout, MainLayout } from '@layouts'
 import { ProtectedRoute, GuestRoute } from '@routes'
-import { Register, Login } from '@pages'
+import { Register, Login, ForgotPassword } from '@pages'
 
 const router = createBrowserRouter([
   {
@@ -58,10 +58,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'forgot-password',
-        element: <GuestRoute>{/* <ForgotPassword /> */}</GuestRoute>,
+        element: (
+          <GuestRoute>
+            {' '}
+            <ForgotPassword />{' '}
+          </GuestRoute>
+        ),
       },
       {
-        path: 'reset-password',
+        path: 'reset-password/:token',
         element: <GuestRoute>{/* <ResetPassword /> */}</GuestRoute>,
       },
     ],
