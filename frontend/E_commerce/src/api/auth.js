@@ -1,35 +1,52 @@
+import axios from 'axios'
+
+// create a reusable axios instance
+const api = axios.create({
+  baseURL: 'http://localhost:3000',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
 // Registration function
 export async function registerUser({ fullName, email, password }) {
-  const res = await fetch('http://localhost:3000/users/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name: fullName, email, password }),
-  })
+  try {
+    // send POST request to backend register endpoint
+    const response = await api.post('/users/register', {
+      name: fullName,
+      email,
+      password,
+    })
 
-  if (!res.ok) {
-    const errorData = await res.json()
-    throw new Error(errorData.message || 'Something went wrong')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      // backend error response handling
+      throw new Error(error.response.data.message || 'Registration failed')
+    }
+
+    // if request failed before reaching server (network error, CORS issue, etc)
+    throw new Error('Network error — try again')
   }
-
-  const data = await res.json()
-  return data
 }
 
 // Login function
 export async function loginUser({ email, password }) {
-  const res = await fetch('http://localhost:3000/users/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    // send login request to backend
+    const response = await api.post('/users/login', {
+      email,
+      password,
+    })
 
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(data.message || 'Something went wrong');
+    return response.data
+  } catch (error) {
+    // backend error response handling
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Login failed')
+    }
+
+    // network / unknown error
+    throw new Error('Network error — try again')
   }
-
-  const data = await res.json();
-  return data;
 }

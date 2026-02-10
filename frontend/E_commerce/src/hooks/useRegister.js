@@ -10,16 +10,18 @@ export function useRegister() {
     setError(null)
     try {
       const res = await registerUser(userData)
-      setLoading(false)
       return {
         success: true,
         message: 'Account created successfully!',
         data: res,
       }
     } catch (err) {
+      const msg = err?.message || 'Registration failed'
+      setError(msg)
+
+      return { success: false, message: msg }
+    } finally {
       setLoading(false)
-      setError(err.message)
-      return { success: false, message: err.message }
     }
   }
 

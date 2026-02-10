@@ -10,13 +10,12 @@ export function useLogin() {
     setError(null)
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500)) // Artificial delay for better UX
-      const res = await loginUser({ email, password })
-      setLoading(false)
-      return res
+      return await loginUser({ email, password })
     } catch (err) {
-      setLoading(false)
-      setError(err.message)
+      setError(err?.message || 'Login failed')
       return null
+    } finally {
+      setLoading(false)
     }
   }
 
