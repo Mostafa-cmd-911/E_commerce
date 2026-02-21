@@ -11,6 +11,7 @@ const PORT = 3000;
 
 const allowedOrigins = [
     "http://localhost:5173",
+    "http://localhost:5174",
     "https://unmeasuredly-unplentiful-lynsey.ngrok-free.dev",
 ];
 
