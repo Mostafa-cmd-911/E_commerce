@@ -1,12 +1,4 @@
-import axios from 'axios'
-
-// create a reusable axios instance
-const api = axios.create({
-  baseURL: 'http://localhost:3000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
+import api from './apiClient'
 
 // Registration function
 export async function registerUser({ fullName, email, password }) {
