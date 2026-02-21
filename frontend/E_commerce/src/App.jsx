@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import { AuthLayout, MainLayout } from '@layouts'
 import { ProtectedRoute, GuestRoute } from '@routes'
-import { Register, Login, ForgotPassword } from '@pages'
+import { Home, Register, Login, ForgotPassword } from '@pages'
 
 const router = createBrowserRouter([
   {
@@ -10,12 +10,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <>
-            {/* <Home /> */}
-            home
-          </>
-        ),
+        element: <Home />,
       },
       {
         path: 'shop',
